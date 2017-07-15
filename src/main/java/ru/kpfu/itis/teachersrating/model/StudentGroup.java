@@ -24,7 +24,7 @@ public class StudentGroup {
     @OneToMany
     private Set<User> students;
 
-    @OneToMany
+    @ManyToMany
     private Set<User> teachers;
 
     public StudentGroup() {
@@ -60,5 +60,21 @@ public class StudentGroup {
 
     public void setInstitute(Institute institute) {
         this.institute = institute;
+    }
+
+    public Set<User> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<User> students) {
+        this.students = students;
+    }
+
+    public Set<User> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(Set<User> teachers) {
+        this.teachers = teachers;
     }
 }
