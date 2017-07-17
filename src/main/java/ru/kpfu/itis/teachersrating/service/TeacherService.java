@@ -9,4 +9,5 @@ public interface TeacherService {
     List<User> getAll();
     List<User> getByStudentGroup(StudentGroup group);
     User get(String username);
+    User getById(Long id);
 }
