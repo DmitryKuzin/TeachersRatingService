@@ -8,4 +8,5 @@ import java.util.List;
 public interface RatingService {
     Rating getByTeacherAndStudent(User teacher, User student);
     List<Rating> getByTeacher(User teacher);
+    Rating vote(Rating rating);
 }
