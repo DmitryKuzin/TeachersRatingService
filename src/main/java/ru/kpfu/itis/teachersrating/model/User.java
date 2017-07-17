@@ -20,11 +20,26 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @Column
-    private String fio;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "patronymic")
+    private String patronymic;
+
+    @Column(name = "image_path")
+    private String imagePath;
 
     @Column(unique = true)
     private String phone;
+
+    @Column(nullable = false)
+    private boolean confirmed;
+
+    @Column(name = "description")
+    private String description;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -65,12 +80,36 @@ public class User {
         this.email = email;
     }
 
-    public String getFio() {
-        return fio;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFio(String fio) {
-        this.fio = fio;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getPhone() {
@@ -79,6 +118,22 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Role getRole() {
