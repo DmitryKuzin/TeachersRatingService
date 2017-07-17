@@ -10,10 +10,10 @@ public class Rating {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private User student;
 
-    @OneToOne
+    @ManyToOne
     private User teacher;
 
     @Column(name = "value", nullable = false)
