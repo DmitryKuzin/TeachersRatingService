@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "TeacherRatings")
 public class TeacherRating {
-
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -17,7 +16,7 @@ public class TeacherRating {
     @Column(name = "rating")
     private Double rating;
 
-    @Column(name = "vote_amount")
+    @Column(name = "voteAmount")
     private int voteAmount;
 
     public Long getId() {
