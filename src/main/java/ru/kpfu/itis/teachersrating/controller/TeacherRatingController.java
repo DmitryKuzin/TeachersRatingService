@@ -1,12 +1,13 @@
 package ru.kpfu.itis.teachersrating.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import ru.kpfu.itis.teachersrating.exception.ResourceNotFoundException;
 import ru.kpfu.itis.teachersrating.model.Institute;
 import ru.kpfu.itis.teachersrating.model.Rating;
@@ -64,19 +65,47 @@ public class TeacherRatingController {
         return "teachers";
     }
 
-    //TODO:страница голосования
-    @RequestMapping(value = "/vote/teachers/{teacherId}", method = RequestMethod.GET)
-    public String teacherVotingPage(@PathVariable Long teacherId, Model model, Principal principal) {
+    @RequestMapping(value = "/rating", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Rating teacherVotingPage(@RequestParam("teacherId") Long teacherId, Principal principal) {
         User teacher = teacherService.getById(teacherId);
         if (teacher == null) {
             throw new ResourceNotFoundException();
         }
         String name = principal.getName();
         User user = teacherService.get(name);
-        Rating rating = ratingService.getByTeacherAndStudent(teacher, user);
-        model.addAttribute("teacher", teacher);
-        model.addAttribute("rating", rating);
-        return "teacherVote";
+        Rating rating = null;
+        if (user != null) {
+            rating = ratingService.getByTeacherAndStudent(teacher, user);
+        }
+        if (rating == null) {
+            rating = new Rating();
+            rating.setTeacher(teacher);
+        }
+        return rating;
+    }
+
+    @RequestMapping(value = "/vote", method = RequestMethod.POST)
+    public ResponseEntity<Void> teacherRate(@RequestParam("teacherId") Long teacherId,
+                                            @RequestParam("rate") Integer rate, Principal principal) {
+        String name = principal.getName();
+        User user = teacherService.get(name);
+        User teacher = teacherService.getById(teacherId);
+        if (teacher == null) {
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        Rating rating = null;
+        if (user != null) {
+            rating = ratingService.getByTeacherAndStudent(teacher, user);
+        }
+        if (rating == null) {
+            rating = new Rating();
+            rating.setTeacher(teacher);
+            rating.setStudent(user);
+        }
+        rating.setValue(rate);
+        ratingService.vote(rating);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
