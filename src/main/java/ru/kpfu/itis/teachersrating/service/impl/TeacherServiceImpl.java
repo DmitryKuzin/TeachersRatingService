@@ -28,4 +28,9 @@ public class TeacherServiceImpl implements TeacherService {
     public User get(String username) {
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public User getById(Long id) {
+        return userRepository.findTeacherById(id);
+    }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface InstituteService {
     List<Institute> getAll();
+    Institute getById(Long id);
 }

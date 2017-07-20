@@ -24,4 +24,9 @@ public class StudentGroupServiceImpl implements StudentGroupService {
     public List<StudentGroup> getByTeacher(User teacher) {
         return studentGroupRepository.findStudentGroupsByTeachersId(teacher.getId());
     }
+
+    @Override
+    public StudentGroup getById(Long id) {
+        return studentGroupRepository.findOne(id);
+    }
 }

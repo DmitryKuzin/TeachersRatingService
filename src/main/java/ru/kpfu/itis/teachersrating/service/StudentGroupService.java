@@ -9,4 +9,5 @@ import java.util.List;
 public interface StudentGroupService {
     List<StudentGroup> getByInstitute(Institute institute);
     List<StudentGroup> getByTeacher(User teacher);
+    StudentGroup getById(Long id);
 }
