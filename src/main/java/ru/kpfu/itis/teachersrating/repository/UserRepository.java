@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
 
-    @Query("select t from User t where t.role = ru.kpfu.itis.teachersrating.model.Role.ROLE_TEACHER")
+    @Query("select t from User t where t.id = ?1 AND t.role = ru.kpfu.itis.teachersrating.model.Role.ROLE_TEACHER")
     User findTeacherById(Long teacherId);
 
     @Query("select t from StudentGroup sg inner join sg.teachers t where sg.id = ?1")
