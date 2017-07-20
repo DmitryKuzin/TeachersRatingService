@@ -1,0 +1,71 @@
+@font-face{
+  font-family: "Roboto";
+  src: url(fonts/roboto/Roboto-Thin.ttf);
+}
+body{
+	padding: 0px;
+	margin: 0px;
+	background: #e4e4e4;
+}
+.header{
+	margin: 0px;
+	height: 70px;
+	background: #541250;
+	color: white;
+	font-size: 20pt;
+	padding-left: 40px;
+	padding-top: 15px;
+	font-weight: 0.5;
+}
+.links{
+	padding-top: 40px;
+	padding-left: 40px;
+	color: #646464;
+	height: 50px;
+	width: 100%;
+	font-size: 16pt;
+}
+.card{
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px; 
+	height: 130px;
+	width: 330px;
+	background:  #ffffff;
+	margin-left: 15px;
+}
+.card-right{
+float: right;
+	color:  #006160;
+	/*padding-left: 15px;*/
+	padding-top: 20px;
+	font-size: 14pt;
+	width: 240px;
+	height: 100%;
+}
+.card-left{
+	height: 100%;
+	background: #006160;
+	width: 130px;
+	float: left;
+	/*margin-right: 15px;*/
+}
+.logo{
+	height: 110px;
+	width: 110px;
+}
+.add-card{
+	float: left;
+	width: 400px;
+	margin:0px;
+}
+.list-card{
+	float: right;
+	width: 400px;
+	margin:0px;
+}
+.wrapper{
+	width: 830px;
+	padding-top: 40px;
+}
