@@ -12,32 +12,43 @@
 </head>
 <body>
 <div class="header">Преподаватели</div>
-<div class="links"><a href="/institutes">КФУ</a> \ <a href="/institutes/${institute.id}/groups">${institute.name?upper_case}</a> \ ${group.groupNumber}</div>
+<div class="links"><a href="/institutes">КФУ</a> \ ${institute.name?upper_case}</div>
 <div class="container">
-    <#if teachers?has_content>
-        <#list teachers as teacher>
-            <a href="#teacher-window-1" class="open-modal" data-teacher-id="${teacher.id}">
-                <div class="teacher-card">
-                    <div class="card-left">
-                        <div class="logo"><img src="/img/${teacher.imagePath}" class="teacher-img"></div>
-                    </div>
-                    <div class="card-right">
-                        <#if teacher.lastName??>
-                            ${teacher.lastName}
-                        </#if>
-                        <br>
-                        <#if teacher.firstName??>
-                            ${teacher.firstName}
-                        </#if>
-                        <br>
-                        <#if teacher.patronymic??>
-                            ${teacher.patronymic}
-                        </#if>
-                    </div>
+<#if teachersRatings?has_content>
+    <#list teachersRatings as teacher>
+        <a href="#teacher-window-1" class="open-modal" data-teacher-id="${teacher.id}">
+            <div class="teacher-card">
+                <div class="card-left">
+                    <div class="logo"><img src="/img/${teacher.imagePath}" class="teacher-img"></div>
                 </div>
-            </a>
-        </#list>
-    </#if>
+                <div class="card-right">
+                    <#if teacher.lastName??>
+                    ${teacher.lastName}
+                    </#if>
+                    <br>
+                    <#if teacher.firstName??>
+                    ${teacher.firstName}
+                    </#if>
+                    <br>
+                    <#if teacher.patronymic??>
+                    ${teacher.patronymic}
+                    </#if>
+                    <br>
+                    <#if teacher.voteAmount?? && teacher.rating??>
+                        <#if teacher.voteAmount gt 0>
+                            Рейтинг: ${teacher.rating}<br>
+                            Голосов: ${teacher.voteAmount}
+                        <#else >
+                            Голосов: 0
+                        </#if>
+                    <#else>
+                        Голосов: 0
+                    </#if>
+                </div>
+            </div>
+        </a>
+    </#list>
+</#if>
 </div>
 <a href="#x" class="overlay" id="teacher-window-1"></a>
 <div class="popup">

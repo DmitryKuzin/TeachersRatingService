@@ -1,18 +1,14 @@
 package ru.kpfu.itis.teachersrating.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kpfu.itis.teachersrating.model.TeacherRating;
 import ru.kpfu.itis.teachersrating.exception.ResourceNotFoundException;
-import ru.kpfu.itis.teachersrating.model.Institute;
-import ru.kpfu.itis.teachersrating.model.Rating;
-import ru.kpfu.itis.teachersrating.model.StudentGroup;
-import ru.kpfu.itis.teachersrating.model.User;
+import ru.kpfu.itis.teachersrating.model.*;
 import ru.kpfu.itis.teachersrating.service.*;
 
 import java.security.Principal;
@@ -33,6 +29,14 @@ public class TeacherRatingController {
     @Autowired
     private RatingService ratingService;
 
+    @Autowired
+    private TeacherRatingService teacherRatingService;
+
+    @RequestMapping(value = "/")
+    public String home() {
+        return "home";
+    }
+
     @RequestMapping(value = "/institutes", method = RequestMethod.GET)
     public String allInstitutesPage(Model model) {
         model.addAttribute("institutes", instituteService.getAll());
@@ -51,6 +55,24 @@ public class TeacherRatingController {
         return "instituteGroups";
     }
 
+    @RequestMapping(value = "/rating", method = RequestMethod.GET)
+    public String ratingPage(Model model, @RequestParam(value = "institute", required = false) Long instituteId) {
+        if (instituteId == null) {
+            model.addAttribute("institutes", instituteService.getAll());
+            return "ratingInstitutes";
+        }
+        Institute institute = instituteService.getById(instituteId);
+        if (institute == null) {
+            throw new ResourceNotFoundException();
+        }
+        List<TeacherRating> teachersRatingsByInstitute = teacherRatingService.getTeachersRatingsByInstitute(institute);
+        teachersRatingsByInstitute.sort((o1, o2) -> o2.getRating() == null ? -1 : o1.getRating() == null ? 1 :
+                Double.compare(o2.getRating(), o1.getRating()));
+        model.addAttribute("institute", institute);
+        model.addAttribute("teachersRatings", teachersRatingsByInstitute);
+        return "rating";
+    }
+
     @RequestMapping(value = "/institutes/{instituteId}/groups/{groupId}/teachers", method = RequestMethod.GET)
     public String teachersPage(@PathVariable Long instituteId, @PathVariable Long groupId, Model model) {
         Institute institute = instituteService.getById(instituteId);
@@ -65,7 +87,7 @@ public class TeacherRatingController {
         return "teachers";
     }
 
-    @RequestMapping(value = "/rating", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/vote", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public Rating teacherVotingPage(@RequestParam("teacherId") Long teacherId, Principal principal) {
         User teacher = teacherService.getById(teacherId);

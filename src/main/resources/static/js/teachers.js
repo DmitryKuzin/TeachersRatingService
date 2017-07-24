@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('.open-modal').click(function () {
         $.ajax({
-            url: '/rating',
+            url: '/vote',
             type: 'GET',
             dataType: 'json',
             data: {
@@ -12,7 +12,7 @@ $(document).ready(function () {
                 var lastName = data.teacher.lastName || "";
                 var patronymic = data.teacher.patronymic || "";
                 var description = data.teacher.description || "";
-                var imagePath = '/img/' +  data.teacher.imagePath || "/img/defaultImage.jpg";
+                var imagePath = '/img/' +  (data.teacher.imagePath || "defaultImage.jpg");
                 var value = data.value;
 
                 $('.popup > .card > .card-right').html( lastName + " <br>" + firstName +
